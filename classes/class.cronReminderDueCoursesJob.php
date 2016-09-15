@@ -199,11 +199,8 @@ class cronReminderDueCoursesJob extends ilCronJob {
 				$ctype = 'f2f';
 			}
 
-
-
 			$start_date = DateTime::createFromFormat('d.m.Y H:i', $start_date_str);
 			$today = new DateTime('NOW');
-
 
 			if ($start_date > $today) { //only future dates
 				
@@ -211,13 +208,15 @@ class cronReminderDueCoursesJob extends ilCronJob {
 
 				$hours = $diff->h;
 				$hours = $diff->h + ($diff->d * 24);
-				
-				if($ctype == 'webinar' && $hours == 1) {
-					array_push($ret, $crs);
-				}
 
-				if($ctype == 'f2f' && $hours == 72) {
-					array_push($ret, $crs);
+				if($diff->m == 0 && $diff->y == 0) {
+					if($ctype == 'webinar' && $hours == 1) {
+						array_push($ret, $crs);
+					}
+
+					if($ctype == 'f2f' && $hours == 72) {
+						array_push($ret, $crs);
+					}
 				}
 			}
 		}
